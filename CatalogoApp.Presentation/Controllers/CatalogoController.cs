@@ -1,88 +1,57 @@
-﻿using CatalogoApp.Domain.Models;
+﻿using CatalogoApp.Application.Services;
+using CatalogoApp.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
-
-
-namespace Catalogo.Controllers
+namespace CatalogoApp.Presentation.Controllers
 {
     public class CatalogoController : Controller
     {
-        /* CatalogoController
-         * ==================
-         * 
-         * Controlador encargado de gestionar el flujo de datos
-         * del catálogo de videojuegos.
-         * 
-         * Su función es recibir las peticiones del usuario,
-         * consultar la lista de items y devolver la vista
-         * correspondiente.
-         * * * * */
+        private readonly ItemService _service;
 
-
-
-        private static List<Item> _items = new()
- {
- new Item {
- Id = 1,
- Titulo = "Devil May Cry",
- Genero = "Hack and Slash",
- Ano = 2001,
- Consola = "PlayStation 2",
- Descripcion = "Videojuego que trata de un cazador mitad humano mitad demonio que debe evitar el regreso del rey del infierno."
- },
- new Item {
- Id = 2,
- Titulo = "Castlevania: Symphony of the Night",
- Genero = "Metroidvania",
- Ano = 1997,
- Consola = "PlayStation 2",
- Descripcion = "Videojuego que trata de un cazador vampiro que debe detener a su padre, el conde Drácula."
- },
- new Item {
- Id = 3,
- Titulo = "NieR: Automata",
- Genero = "Acción-RPG",
- Ano = 2017,
- Consola = "PlayStation 4",
- Descripcion = "Videojuego que trata de unos androides de batalla que deben detener a las máquinas alienígenas."
- }
- };
-        public IActionResult Index(string? genero)
+        // El servicio llega por inyección de dependencias
+        public CatalogoController(ItemService service)
         {
-            var resultado = string.IsNullOrEmpty(genero)
-            ? _items
-            : _items.Where(i => i.Genero == genero).ToList();
-
-
-
-            ViewBag.Generos = _items.Select(i => i.Genero).Distinct().ToList();
-            ViewBag.GeneroActual = genero;
-
-            return View(resultado);
+            _service = service;
         }
 
+        // Lista con filtro opcional por género
+        public IActionResult Index(string? genero)
+        {
+            var items = string.IsNullOrEmpty(genero)
+                ? _service.ObtenerTodos()
+                : _service.ObtenerPorGenero(genero);
 
+            ViewBag.Generos = _service.ObtenerGeneros();
+            ViewBag.GeneroActual = genero;
 
+            return View(items);
+        }
+
+        // Detalle de un item
         public IActionResult Detalle(int id)
         {
-            var item = _items.FirstOrDefault(i => i.Id == id);
+            var item = _service.ObtenerPorId(id);
             return item == null ? NotFound() : View(item);
         }
 
-
-
+        // Formulario — GET
         public IActionResult Agregar()
         {
             return View();
         }
 
-
-
+        // Formulario — POST
         [HttpPost]
         public IActionResult Agregar(Item item)
         {
-            item.Id = _items.Count + 1;
-            _items.Add(item);
+            _service.Agregar(item);
+            return RedirectToAction("Index");
+        }
+
+        // Eliminar
+        public IActionResult Eliminar(int id)
+        {
+            _service.Eliminar(id);
             return RedirectToAction("Index");
         }
     }

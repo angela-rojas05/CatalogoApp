@@ -6,5 +6,13 @@
     "Consola": "PlayStation 2",
     "Ano": 2001,
     "Descripcion": "Dante, cazador de demonios, enfrenta a Mundus."
+  },
+  {
+    "Id": 2,
+    "Titulo": "Minecraft",
+    "Genero": "spacebox",
+    "Consola": "Multiplataforma",
+    "Ano": 2009,
+    "Descripcion": "Un juego de bloques muy divertido "
   }
 ]

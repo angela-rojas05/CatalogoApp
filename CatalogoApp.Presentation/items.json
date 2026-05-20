@@ -1,0 +1,34 @@
+[
+  {
+    "Id": 1,
+    "Titulo": "Devil May Cry",
+    "Genero": "Hack and Slash",
+    "Consola": "PlayStation 2",
+    "Ano": 2001,
+    "Descripcion": "Videojuego que trata de un cazador mitad humano mitad demonio que debe evitar el regreso del rey del infierno."
+  },
+  {
+    "Id": 2,
+    "Titulo": "Castlevania: Symphony of the Night",
+    "Genero": "Metroidvania",
+    "Consola": "PlayStation",
+    "Ano": 1997,
+    "Descripcion": "Videojuego que trata de un cazador vampiro que debe detener a su padre, el conde Dr\u00E1cula."
+  },
+  {
+    "Id": 3,
+    "Titulo": "NieR: Automata",
+    "Genero": "Acci\u00F3n-RPG",
+    "Consola": "PlayStation 4",
+    "Ano": 2017,
+    "Descripcion": "Videojuego que trata de unos androides de batalla que deben detener a las m\u00E1quinas alien\u00EDgenas."
+  },
+  {
+    "Id": 4,
+    "Titulo": "Minecraft",
+    "Genero": "spacebox",
+    "Consola": "Multiplataforma",
+    "Ano": 2009,
+    "Descripcion": "Un juego de bloques muy divertido"
+  }
+]
