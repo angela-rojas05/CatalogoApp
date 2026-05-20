@@ -95,5 +95,6 @@ namespace CatalogoApp.Infrastructure.Repositories
             File.WriteAllText(_filePath, json);
         }
     }
+}
 
  
