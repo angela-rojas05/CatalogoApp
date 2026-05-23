@@ -1,24 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CatalogoApp.Application\CatalogoApp.Application.csproj" />
-    <ProjectReference Include="..\CatalogoApp.Domain\CatalogoApp.Domain.csproj" />
-    <ProjectReference Include="..\CatalogoApp.Infrastructure\CatalogoApp.Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\CatalogoApp.Application\CatalogoApp.Application.csproj" />
+		<ProjectReference Include="..\CatalogoApp.Domain\CatalogoApp.Domain.csproj" />
+		<ProjectReference Include="..\CatalogoApp.Infrastructure\CatalogoApp.Infrastructure.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Update="data\Users.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="data\items.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Update="Data\items.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="Data\usuarios.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="Data\resenas.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>
