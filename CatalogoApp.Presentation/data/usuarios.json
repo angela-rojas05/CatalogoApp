@@ -1,8 +1,14 @@
-﻿[
+[
   {
     "Id": 2,
     "NombreUsuario": "Angela Rojas",
     "PasswordHash": "1234",
     "Email": "angela.games12345@hotmail.com"
+  },
+  {
+    "Id": 3,
+    "NombreUsuario": "Elacienta",
+    "PasswordHash": "b3d8dd7ef19a3a3bf71d0981a2ccef1260f7d9306abdda60bbd3248b2bbdafcc",
+    "Email": "angelagames12345@hotmail.com"
   }
 ]

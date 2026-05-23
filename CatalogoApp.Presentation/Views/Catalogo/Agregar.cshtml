@@ -1,54 +1,46 @@
 ﻿@model CatalogoApp.Domain.Models.Item
+@{
+    ViewData["Title"] = "Agrega un videojuego";
+}
 
- 
+<a asp-action="Index" class="link-back" style="margin-bottom:1.5rem;display:inline-block;">← Volver al catálogo</a>
 
-<h1>Agregar videojuego</h1>
+<h1 style="margin-bottom:.2rem;">Agregar videojuego</h1>
+<p style="color:var(--texto-suave);margin-bottom:1.8rem;font-size:.95rem;">Completa los siguientes campos ✨</p>
 
- 
+<div class="form-card">
+    <form asp-action="Agregar" method="post">
 
-<form asp-action="Agregar" method="post">
-    @* Centrado vertical con Flexbox *@
-    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-        <label style="width: 120px;">Título</label>
-        <input asp-for="Titulo" class="form-control" style="flex: 1;" />
-    </div>
+        <div class="form-group">
+            <label class="form-label">Título</label>
+            <input asp-for="Titulo" class="form-control" placeholder="Ej: Call Of Duty" />
+        </div>
 
- 
+        <div class="form-group">
+            <label class="form-label">Género</label>
+            <input asp-for="Genero" class="form-control" placeholder="Ej: RPG, Acción, Historia..." />
+        </div>
 
-    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-        <label style="width: 120px;">Género</label>
-        <input asp-for="Genero" class="form-control" style="flex: 1;" />
-    </div>
+        <div class="form-group">
+            <label class="form-label">Consola</label>
+            <input asp-for="Consola" class="form-control" placeholder="Ej: Nintendo Switch, PS5, xbox..." />
+        </div>
 
- 
+        <div class="form-group">
+            <label class="form-label">Año</label>
+            <input asp-for="Ano" type="number" class="form-control" placeholder="Ej: 2026" min="1970" max="2030" />
+        </div>
 
-    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-        <label style="width: 120px;">Consola</label>
-        <input asp-for="Consola" class="form-control" style="flex: 1;" />
-    </div>
+        <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <textarea asp-for="Descripcion" class="form-control" rows="4"
+                      placeholder="¡Escribe una descripción del juego!"></textarea>
+        </div>
 
- 
+        <div style="display:flex;gap:.8rem;margin-top:1.5rem;">
+            <button type="submit" class="btn btn-primary"> Agregar </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
 
-    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-        <label style="width: 120px;">Año</label>
-        <input asp-for="Ano" type="number" class="form-control" style="flex: 1;" />
-    </div>
-
- 
-
-    <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
-        <label style="width: 120px; margin-top: 8px;">Descripción</label>
-        <textarea asp-for="Descripcion" class="form-control" style="flex: 1;"></textarea>
-    </div>
-
- 
-
-    <div style="margin-left: 120px;">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </div>
-</form>
-
- 
-
-<hr />
-<a asp-action="Index">&larr; Cancelar</a>
+    </form>
+</div>

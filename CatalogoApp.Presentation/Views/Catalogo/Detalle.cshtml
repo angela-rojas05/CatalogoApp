@@ -1,17 +1,102 @@
 ﻿@model CatalogoApp.Domain.Models.Item
+@using CatalogoApp.Domain.Models
+@{
+    ViewData["Title"] = Model.Titulo;
+    var resenas = ViewBag.Resenas as List<Resena> ?? new List<Resena>();
+    var usuarioLogueado = ViewBag.UsuarioLogueado as string;
+}
 
- 
+<a asp-action="Index" class="link-back" style="margin-bottom:1.5rem;display:inline-block;">← Volver al catálogo</a>
 
-<h1>@Model.Titulo</h1>
+<!-- Info del juego -->
+<div class="detalle-card">
+    <h1>@Model.Titulo</h1>
+    <div class="detalle-meta">
+        <span class="badge-genero">@Model.Genero</span>
+        <span class="badge-azul-pill">@Model.Consola</span>
+        <span class="badge-lila-pill">@Model.Ano</span>
+    </div>
+    <p class="descripcion">@Model.Descripcion</p>
+</div>
 
- 
+<!-- Sección reseñas -->
+<div class="seccion-resenas">
+    <h2>💬 Reseñas (@resenas.Count)</h2>
 
-<p><strong>Género:</strong> @Model.Genero</p>
-<p><strong>Consola:</strong> @Model.Consola</p>
-<p><strong>Año:</strong> @Model.Ano</p>
-<p><strong>Descripción:</strong> @Model.Descripcion</p>
+    @if (TempData["ExitoResena"] != null)
+    {
+        <div class="alert-success">✅ @TempData["ExitoResena"]</div>
+    }
+    @if (TempData["ErrorResena"] != null)
+    {
+        <div class="alert-danger">❌ @TempData["ErrorResena"]</div>
+    }
 
- 
+    <!-- Lista de reseñas -->
+    @if (resenas.Count == 0)
+    {
+        <div class="empty-state">
+            <p style="margin:0;">Sé el primero en dar su opinión 🌸</p>
+        </div>
+    }
+    else
+    {
+        @foreach (var r in resenas.OrderByDescending(x => x.FechaCreacion))
+        {
+            <div class="resena-card">
+                <div class="resena-header">
+                    <span class="resena-usuario">@r.NombreUsuario</span>
+                    <span class="resena-fecha">@r.FechaCreacion.ToString("dd/MM/yyyy")</span>
+                </div>
+                <div class="estrellas">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        @(i <= r.Calificacion ? "★" : "☆")
+                    }
+                </div>
+                <p class="resena-comentario">@r.Comentario</p>
+            </div>
+        }
+    }
 
-<hr />
-<a asp-action="Index">&larr; Volver al catálogo</a>
+    <!-- Formulario reseña — solo si está logueado -->
+    @if (usuarioLogueado != null)
+    {
+        <div class="form-resena">
+            <h3>📝 Agregar reseña</h3>
+            <form asp-controller="Resena" asp-action="Agregar" method="post">
+                <input type="hidden" name="itemId" value="@Model.Id" />
+
+                <div class="form-group">
+                    <label class="form-label">Calificación</label>
+                    <div class="rating-select">
+                        @for (int i = 5; i >= 1; i--)
+                        {
+                            <input type="radio" name="calificacion" id="star@(i)" value="@i" @(i == 5 ? "checked" : "") />
+                            <label for="star@(i)" title="@i estrella@(i > 1 ? "s" : "")">★</label>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Comentario</label>
+                    <textarea name="comentario" class="form-control"
+                              placeholder="Escribe lo que opinas de este juego. " rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Publicar reseña</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="login-required">
+            <p style="margin:0;">
+                Para poder hacer reseñas debes: 
+                <a asp-controller="Usuario" asp-action="Login"
+                   asp-route-returnUrl="@Url.Action("Detalle", "Catalogo", new { id = Model.Id })">iniciar sesión</a>
+                o <a asp-controller="Usuario" asp-action="Registro">registrarte</a>.
+            </p>
+        </div>
+    }
+</div>
