@@ -1,57 +1,68 @@
 ﻿using CatalogoApp.Application.Services;
 using CatalogoApp.Domain.Models;
+using CatalogoApp.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CatalogoApp.Presentation.Controllers
+namespace Catalogo.Controllers
 {
     public class CatalogoController : Controller
     {
-        private readonly ItemService _service;
+        /* CatalogoController
+         * ==================
+         * Gestiona el catálogo de videojuegos.
+         * - Ver catálogo: cualquier usuario.
+         * - Agregar videojuego: solo usuarios logueados.
+         * * * * */
 
-        // El servicio llega por inyección de dependencias
-        public CatalogoController(ItemService service)
+        private readonly ItemService _itemService;
+        private readonly JsonResenaRepository _resenaRepo;
+
+        public CatalogoController(ItemService itemService, JsonResenaRepository resenaRepo)
         {
-            _service = service;
+            _itemService = itemService;
+            _resenaRepo = resenaRepo;
         }
 
-        // Lista con filtro opcional por género
         public IActionResult Index(string? genero)
         {
-            var items = string.IsNullOrEmpty(genero)
-                ? _service.ObtenerTodos()
-                : _service.ObtenerPorGenero(genero);
+            var todos = _itemService.ObtenerTodos();
+            var resultado = string.IsNullOrEmpty(genero)
+                ? todos
+                : todos.Where(i => i.Genero == genero).ToList();
 
-            ViewBag.Generos = _service.ObtenerGeneros();
+            ViewBag.Generos = _itemService.ObtenerGeneros();
             ViewBag.GeneroActual = genero;
-
-            return View(items);
+            ViewBag.UsuarioLogueado = HttpContext.Session.GetString("UsuarioLogueado");
+            return View(resultado);
         }
 
-        // Detalle de un item
         public IActionResult Detalle(int id)
         {
-            var item = _service.ObtenerPorId(id);
-            return item == null ? NotFound() : View(item);
+            var item = _itemService.ObtenerPorId(id);
+            if (item == null) return NotFound();
+
+            ViewBag.Resenas = _resenaRepo.ObtenerPorItem(id);
+            ViewBag.UsuarioLogueado = HttpContext.Session.GetString("UsuarioLogueado");
+            return View(item);
         }
 
-        // Formulario — GET
+        // GET: Solo logueados
         public IActionResult Agregar()
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+                return RedirectToAction("Login", "Usuario",
+                    new { returnUrl = Url.Action("Agregar", "Catalogo") });
             return View();
         }
 
-        // Formulario — POST
+        // POST: Solo logueados
         [HttpPost]
         public IActionResult Agregar(Item item)
         {
-            _service.Agregar(item);
-            return RedirectToAction("Index");
-        }
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+                return RedirectToAction("Login", "Usuario");
 
-        // Eliminar
-        public IActionResult Eliminar(int id)
-        {
-            _service.Eliminar(id);
+            _itemService.Agregar(item);
             return RedirectToAction("Index");
         }
     }
