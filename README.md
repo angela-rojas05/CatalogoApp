@@ -50,11 +50,19 @@ La aplicación permite:
 
 ## Pantalla principal
 
-![Pantalla principal](./screenshots/home.png)
+![Pantalla de sesión](/sesion.png)
 
 ## Vista del catálogo
 
-![Catálogo](./screenshots/catalogo.png)
+![Agregar juego](/juego.png)
+
+## Vista del catálogo
+
+![Reseñas](/reseña.png)
+
+## Vista del catálogo
+
+![Agregar reseñas](/Agregar.png)
 
 ---
 # 🚀 Cómo ejecutar el proyecto
@@ -66,6 +74,11 @@ La aplicación permite:
 
 ---
 
+## Clausula de IA
+
+En este proyecto existio el uso de IA, Claude AI. Claude ayudó en la creación de los estilos CSS personalizados, en el diseño visual del sitio web y en la escritura de parte del código JavaScript que hace que el sitio sea interactivo.
+
+---
 # 👨‍💻 Autor
 
 - Hecho por: Ángela Yaritzi Rojas Brito
